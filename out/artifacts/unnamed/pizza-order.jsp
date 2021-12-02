@@ -70,15 +70,6 @@
     <input type="submit">
 </form>
 
-<p>Your order:
-<ul>
-    <li>crust - ${crust}</li>
-    <li>sauce - ${sauce}, ${sauceAmount}</li>
-    <li>meat toppings - ${meat_top}</li>
-    <li>veggie toppings - ${veg_top}</li>
-</ul>
-
-<p>Your delivery address: ${address}</p>
 
 </p>
 
