@@ -24,32 +24,42 @@ public class MySQLAdsDao implements Ads {
     }
 
 
-
     public List<Ad> all() {
-        List<Ad> ads = new ArrayList<>();
-        String query = "SELECT * FROM ads";
+        String selectQuery = "SELECT * FROM ads";
+        Statement statement = null;
+        ResultSet resultSet = null;
+        List<Ad> adsList = new ArrayList<>();
+
         try {
-            Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery(query);
-            while (rs.next()) {
-                Ad ad = new Ad(
-                        rs.getLong("id"),
-                        rs.getLong("user_id"),
-                        rs.getString("title"),
-                        rs.getString("description")
-                );
-                ads.add(ad);
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(selectQuery);
+            while (resultSet.next()) {
+                Ad currentAd = new Ad(resultSet.getInt("id"), resultSet.getString("title"), resultSet.getString("description"));
+                adsList.add(currentAd);
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        return ads;
+
+        return adsList;
+
     }
 
 
     public Long insert(Ad ad) {
-        return null;
-    }
 
+        try {
+            String query = "INSERT INTO ads (title, description) VALUES ('the ad', 'the description')";
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
+            ResultSet rs = statement.getGeneratedKeys();
+            rs.next();
+            return rs.getLong(1);
+
+        } catch(SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
 
 }
