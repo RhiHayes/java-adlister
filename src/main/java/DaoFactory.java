@@ -1,3 +1,5 @@
+import com.codeup.adlister.Config;
+
 import java.sql.SQLException;
 
 public class DaoFactory {
